@@ -1,12 +1,12 @@
 import React from 'react'
 import Card from '../UI/Card'
 
-const ArticleItem = () => {
+const ArticleItem = (props: any) => {
   return (
     <Card>
         <div>
             <p>
-                Article...
+                {props.article.title}
             </p>
         </div>
         <div>

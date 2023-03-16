@@ -1,4 +1,4 @@
-import { createStore } from "redux";
+// import { createStore } from "redux";
 
 const initialState: any = {
   username: "",
@@ -6,16 +6,19 @@ const initialState: any = {
   id: "",
 };
 
-const profileReducer = (state = initialState, action: any) => {
-  if (action.type === "FETCH_PROFILE") {
-    return {
-      username: action.payload.username || state.username,
-      email: action.payload.email || state.email,
-      id: action.payload.id || state.id,
-    };
+export const profileReducer = (state = initialState, action: any) => {
+  switch (action.type) {
+    case "FETCH_PROFILE":
+      return {
+        username: action.payload.username || state.username,
+        email: action.payload.email || state.email,
+        id: action.payload.id || state.id,
+      };
+    default:
+      return state;
   }
 };
 
-const store = createStore(profileReducer);
+// const store = createStore(profileReducer);
 
-export default store;
+// export default store;

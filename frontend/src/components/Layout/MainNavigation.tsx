@@ -1,21 +1,14 @@
 import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { DefaultRootState, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import AuthContext from "../../store/auth-context";
-
-interface AppState extends DefaultRootState {
-  username: string;
-  email: string;
-  id: number;
-}
 
 const MainNavigation = () => {
   const authContext = useContext(AuthContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state: AppState) => state);
-  console.log(user, "username");
+  const user = useSelector((state: any) => state.profile);
 
   useEffect(() => {
     const fetchProfile = async () => {
