@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchArticles } from "../../store";
+import { fetchArticles } from "../../store/articles/article-actions";
 import ArticleItem from "./ArticleItem";
 import Button from "../UI/Button";
 
