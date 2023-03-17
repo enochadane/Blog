@@ -16,7 +16,9 @@ function App() {
             <Route path="/" element={<DashBoardPage />} />
           )}
           {authContext.isLoggedIn && (
-            <Route path="/articles" element={<ArticlesPage />} />
+            <Route path="/articles" element={<ArticlesPage />} >
+              <Route path="details" element={<DashBoardPage />}/>
+            </Route>
           )}
           <Route path="/auth" element={<AuthPage />} />
         </Routes>
