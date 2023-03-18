@@ -2,6 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   items: [],
+  article: {
+    id: 0,
+    title: "",
+    body: "",
+    likes: 0,
+    comments: [],
+  },
 };
 
 const articleSlice = createSlice({
@@ -14,7 +21,9 @@ const articleSlice = createSlice({
     getArticles(state, action) {
       state.items = action.payload.items;
     },
-    getArticle(state, action) {},
+    getArticle(state, action) {
+      state.article = action.payload.article;
+    },
     updateArticle(state, action) {},
     deleteArticle(state) {},
   },

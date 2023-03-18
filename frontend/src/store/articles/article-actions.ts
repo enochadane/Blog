@@ -59,3 +59,30 @@ export const fetchArticles = () => {
     }
   };
 };
+
+export const fetchArticle = (id: number) => {
+  return async (dispatch: any) => {
+    const fetchData = async () => {
+      const res = await fetch(`http://localhost:3000/articles/${id}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
+      });
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const data = await res.json();
+      return data;
+    };
+    try {
+      const article = await fetchData();
+      dispatch(
+        articleActions.getArticle({
+          article: article.data,
+        })
+      );
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
+};

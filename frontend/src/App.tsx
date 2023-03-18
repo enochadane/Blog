@@ -5,6 +5,7 @@ import AuthPage from "./pages/AuthPage";
 import ArticlesPage from "./pages/ArticlesPage";
 import AuthContext from "./store/auth-context";
 import DashBoardPage from "./pages/DashBoardPage";
+import ArticleDetailsPage from "./pages/ArticleDetailsPage";
 
 function App() {
   const authContext = useContext(AuthContext);
@@ -16,9 +17,10 @@ function App() {
             <Route path="/" element={<DashBoardPage />} />
           )}
           {authContext.isLoggedIn && (
-            <Route path="/articles" element={<ArticlesPage />} >
-              <Route path="details" element={<DashBoardPage />}/>
-            </Route>
+            <Route path="/articles" element={<ArticlesPage />} />
+          )}
+          {authContext.isLoggedIn && (
+            <Route path="/articles/:id" element={<ArticleDetailsPage />} />
           )}
           <Route path="/auth" element={<AuthPage />} />
         </Routes>

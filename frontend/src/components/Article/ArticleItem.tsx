@@ -1,4 +1,6 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import Card from "../UI/Card";
 
 const ArticleItem = (props: any) => {
@@ -9,7 +11,10 @@ const ArticleItem = (props: any) => {
         {props.article.body}
       </div>
       <div className="flex justify-end space-x-2">
-        <div>{props.article.likes} likes</div>
+        <div className="flex space-x-1">
+          <div>{props.article.likes}</div>
+          <FontAwesomeIcon icon={faThumbsUp} />
+        </div>
         <div>{props.article.commentCount} comments</div>
       </div>
     </Card>

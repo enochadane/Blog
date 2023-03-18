@@ -37,7 +37,7 @@ const ArticleList = () => {
   };
 
   const articleDetailsHandler = (id: number) => {
-    navigate(`details/${id}`)
+    navigate(`${id}`)
   };
 
   return (
@@ -49,7 +49,7 @@ const ArticleList = () => {
         />
       )}
       <div className="flex flex-col w-1/2">
-        <div className="flex justify-between">
+        <div className="flex justify-between mt-5">
           <h2 className="text-2xl font-bold">Articles</h2>
           <Button type="button" onClick={handleShowModal}>
             Create
