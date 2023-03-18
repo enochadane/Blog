@@ -1,6 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface Article {
+  id: number;
+  title: string;
+  body: string;
+  likes: number;
+  comments: [];
+}
+
+const initialState: { items: Article[]; article: Article } = {
   items: [],
   article: {
     id: 0,
@@ -24,7 +32,14 @@ const articleSlice = createSlice({
     getArticle(state, action) {
       state.article = action.payload.article;
     },
-    updateArticle(state, action) {},
+    updateArticle(state, action) {
+      const updatedArticle = action.payload.article;
+      const prevIndex = state.items.findIndex(
+        (article: any) => article.id === updatedArticle.id
+      );
+      state.items[prevIndex] = updatedArticle;
+      state.article = updatedArticle;
+    },
     deleteArticle(state) {},
   },
 });

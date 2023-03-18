@@ -86,3 +86,36 @@ export const fetchArticle = (id: number) => {
     }
   };
 };
+
+export const updateArticle = (id: number, title: string, body: string) => {
+  return async (dispatch: any) => {
+    const updateData = async () => {
+      const res = await fetch(`http://localhost:3000/articles/${id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          title,
+          body,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const data = await res.json();
+      return data;
+    };
+    try {
+      const article = await updateData();
+      dispatch(
+        articleActions.updateArticle({
+          article: article.data,
+        })
+      );
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
+};

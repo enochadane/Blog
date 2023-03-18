@@ -13,8 +13,8 @@ const Backdrop = (props: any) => {
 };
 
 const ModalOverlay = (props: any) => {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [title, setTitle] = useState(props.title);
+  const [body, setBody] = useState(props.body);
 
   const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
@@ -26,7 +26,7 @@ const ModalOverlay = (props: any) => {
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    props.onSave(title, body)
+    props.onSave(title, body);
   };
 
   return (
@@ -46,6 +46,7 @@ const ModalOverlay = (props: any) => {
               id="title"
               required
               placeholder="Enter Title"
+              value={title}
               onChange={handleTitleChange}
               className="w-full border-2 border-gray-300 p-2 rounded-lg"
             />
@@ -62,6 +63,7 @@ const ModalOverlay = (props: any) => {
               id="details"
               required
               placeholder="Enter Details"
+              value={body}
               onChange={handleDetailsChange}
               className="w-full border-2 border-gray-300 p-2 rounded-lg"
             />
@@ -70,9 +72,7 @@ const ModalOverlay = (props: any) => {
             <Button type="button" onClick={props.onClose}>
               Close
             </Button>
-            <Button type="submit">
-              Save
-            </Button>
+            <Button type="submit">Save</Button>
           </div>
         </form>
       </div>
@@ -92,7 +92,12 @@ const CreateArticleForm = (props: any) => {
         backdropRoot
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay onSave={props.onSave} onClose={props.onClose} />,
+        <ModalOverlay
+          onSave={props.onSave}
+          onClose={props.onClose}
+          title={props.title}
+          body={props.body}
+        />,
         overlayRoot
       )}
     </>
