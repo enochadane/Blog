@@ -8,6 +8,9 @@ import {
   updateArticle,
 } from "../../store/articles/article-actions";
 import EditArticleModal from "../../pages/EditArticleModal";
+import CommentList from "../Comment/CommentList";
+import CreateComment from "../Comment/CreateComment";
+import { createComment } from "../../store/articles/comment-actions";
 
 const ArticleDetails = () => {
   const dispatch = useDispatch();
@@ -27,6 +30,10 @@ const ArticleDetails = () => {
   const editArticleHandler = (title: string, body: string) => {
     dispatch(updateArticle(article.id, title, body));
     setShowModal((prevShowModal) => !prevShowModal);
+  };
+
+  const createCommentHandler = (content: string) => {
+    dispatch(createComment(article.id, content));
   };
 
   return (
@@ -58,6 +65,10 @@ const ArticleDetails = () => {
             }`}
           </div>
           <div className="text-gray-500">{article.likes} likes</div>
+        </div>
+        <div>
+          <CreateComment onSave={createCommentHandler} />
+          <CommentList comments={article.comments} />
         </div>
       </div>
     </>

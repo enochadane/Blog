@@ -1,11 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+interface Comment {
+  id: number;
+  body: string;
+}
+
 interface Article {
   id: number;
   title: string;
   body: string;
   likes: number;
-  comments: [];
+  comments: Comment[];
 }
 
 const initialState: { items: Article[]; article: Article } = {
@@ -40,7 +45,17 @@ const articleSlice = createSlice({
       state.items[prevIndex] = updatedArticle;
       state.article = updatedArticle;
     },
-    deleteArticle(state) {},
+    deleteArticle(state, action) {
+      state.items = state.items.filter(
+        (article: any) => article.id !== action.payload.id
+      );
+    },
+    createComment(state, action) {
+      state.article.comments.push(action.payload.comment);
+    },
+    getComments(state, action) {
+      state.article.comments = action.payload;
+    },
   },
 });
 
