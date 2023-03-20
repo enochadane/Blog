@@ -64,3 +64,35 @@ export const fetchComments = (articleId: number) => {
     }
   };
 };
+
+export const updateComment = (commentId: number, content: string) => {
+  return async (dispatch: any) => {
+    const updateData = async () => {
+      const res = await fetch(`http://localhost:3000/comments/${commentId}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          body: content,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const data = await res.json();
+      return data;
+    };
+    try {
+      const comment = await updateData();
+      dispatch(
+        articleActions.updateComment({
+          comment: comment.data,
+        })
+      );
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
+};

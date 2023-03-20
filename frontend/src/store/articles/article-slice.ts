@@ -54,7 +54,14 @@ const articleSlice = createSlice({
       state.article.comments.push(action.payload.comment);
     },
     getComments(state, action) {
-      state.article.comments = action.payload;
+      state.article.comments = action.payload.comments;
+    },
+    updateComment(state, action) {
+      const updatedComment = action.payload.comment;
+      const prevIndex = state.article.comments.findIndex(
+        (comment: Comment) => comment.id === updatedComment.id
+      );
+      state.article.comments[prevIndex] = updatedComment;
     },
   },
 });

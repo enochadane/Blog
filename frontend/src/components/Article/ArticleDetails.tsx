@@ -10,7 +10,10 @@ import {
 import EditArticleModal from "../../pages/EditArticleModal";
 import CommentList from "../Comment/CommentList";
 import CreateComment from "../Comment/CreateComment";
-import { createComment } from "../../store/articles/comment-actions";
+import {
+  createComment,
+  fetchComments,
+} from "../../store/articles/comment-actions";
 
 const ArticleDetails = () => {
   const dispatch = useDispatch();
@@ -20,9 +23,12 @@ const ArticleDetails = () => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
+    dispatch(fetchComments(id as unknown as number));
+  }, [dispatch, id, article])
+  useEffect(() => {
     dispatch(fetchArticle(id as unknown as number));
   }, [dispatch, id]);
-
+  
   const handleShowModal = () => {
     setShowModal((prevShowModal) => !prevShowModal);
   };
