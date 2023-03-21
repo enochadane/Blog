@@ -96,3 +96,32 @@ export const updateComment = (commentId: number, content: string) => {
     }
   };
 };
+
+export const deleteComment = (id: number) => {
+  return async (dispatch: any) => {
+    const deleteData = async () => {
+      const res = await fetch(`http://localhost:3000/comments/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const data = await res.json();
+      return data;
+    };
+    try {
+      const articleData = await deleteData();
+      dispatch(
+        articleActions.deleteComment({
+          id: articleData.data.id,
+        })
+      );
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
+};

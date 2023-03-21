@@ -63,6 +63,11 @@ const articleSlice = createSlice({
       );
       state.article.comments[prevIndex] = updatedComment;
     },
+    deleteComment(state, action) {
+      state.article.comments = state.article.comments.filter(
+        (comment: Comment) => comment.id !== action.payload.id
+      );
+    },
   },
 });
 

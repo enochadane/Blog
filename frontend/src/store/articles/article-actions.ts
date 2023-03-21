@@ -119,3 +119,33 @@ export const updateArticle = (id: number, title: string, body: string) => {
     }
   };
 };
+
+export const deleteArticle = (id: number) => {
+  return async (dispatch: any) => {
+    const deleteData = async () => {
+      const res = await fetch(`http://localhost:3000/articles/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const data = await res.json();
+      return data;
+    };
+
+    try {
+      const data = await deleteData();
+      dispatch(
+        articleActions.deleteArticle({
+          id: data.data.id,
+        })
+      );
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
+};

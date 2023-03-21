@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
+import { faPenToSquare, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+
 import {
+  deleteArticle,
   fetchArticle,
   updateArticle,
 } from "../../store/articles/article-actions";
@@ -14,21 +17,24 @@ import {
   createComment,
   fetchComments,
 } from "../../store/articles/comment-actions";
+import DeleteModal from "../UI/DeleteModal";
 
 const ArticleDetails = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const article = useSelector((state: any) => state.article.article);
   const { id } = useParams();
 
   const [showModal, setShowModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     dispatch(fetchComments(id as unknown as number));
-  }, [dispatch, id, article])
+  }, [dispatch, id, article]);
   useEffect(() => {
     dispatch(fetchArticle(id as unknown as number));
   }, [dispatch, id]);
-  
+
   const handleShowModal = () => {
     setShowModal((prevShowModal) => !prevShowModal);
   };
@@ -42,8 +48,25 @@ const ArticleDetails = () => {
     dispatch(createComment(article.id, content));
   };
 
+  const showDeleteModalHandler = () => {
+    setShowDeleteModal((prevShowDeleteModal) => !prevShowDeleteModal);
+  };
+
+  const deleteArticleHandler = () => {
+    dispatch(deleteArticle(article.id));
+    navigate("/articles");
+    setShowDeleteModal((prevShowDeleteModal) => !prevShowDeleteModal);
+  };
+
   return (
     <>
+      {showDeleteModal && (
+        <DeleteModal
+          onDelete={deleteArticleHandler}
+          onCancel={showDeleteModalHandler}
+          entity="Article"
+        />
+      )}
       {showModal && (
         <EditArticleModal
           onSave={editArticleHandler}
@@ -76,6 +99,11 @@ const ArticleDetails = () => {
           <CreateComment onSave={createCommentHandler} />
           <CommentList comments={article.comments} />
         </div>
+      </div>
+      <div className="flex justify-end text-red-600 text-2xl fixed right-20 bottom-20 bg-white shadow-xl shadow-gray-400 m-20 p-5 rounded-full">
+        <button onClick={showDeleteModalHandler}>
+          <FontAwesomeIcon icon={faTrashAlt} />
+        </button>
       </div>
     </>
   );
