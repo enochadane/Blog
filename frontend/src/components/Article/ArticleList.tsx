@@ -37,7 +37,7 @@ const ArticleList = () => {
   };
 
   const articleDetailsHandler = (id: number) => {
-    navigate(`${id}`)
+    navigate(`${id}`);
   };
 
   return (

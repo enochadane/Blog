@@ -26,6 +26,7 @@ const retrieveStoredToken = () => {
 
   if (remainingTime <= 3600) {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("expirationTime");
     return null;
   }
 
@@ -71,8 +72,10 @@ export const AuthContextProvider = (props: any) => {
   useEffect(() => {
     if (tokenData) {
       logoutTimer = setTimeout(logoutHandler, tokenData.remainingTime);
+    } else {
+      navigate("/auth");
     }
-  }, [tokenData, logoutHandler]);
+  }, [tokenData, logoutHandler, navigate]);
 
   const contextValue = {
     token: accessToken,

@@ -120,6 +120,40 @@ export const updateArticle = (id: number, title: string, body: string) => {
   };
 };
 
+export const updateLikes = (articleId: number, like: number) => {
+  return async (dispatch: any) => {
+    const updateData = async () => {
+      const res = await fetch(
+        `http://localhost:3000/articles/like/${articleId}?like=${like}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
+      if (!res.ok) {
+        throw new Error(res.statusText);
+      }
+      const data = await res.json();
+      return data;
+    };
+
+    try {
+      const article = await updateData();
+      dispatch(
+        articleActions.updateLikes({
+          id: article.data.id,
+          likes: article.data.likes,
+        })
+      );
+    } catch (e: any) {
+      console.log(e.message);
+    }
+  };
+};
+
 export const deleteArticle = (id: number) => {
   return async (dispatch: any) => {
     const deleteData = async () => {

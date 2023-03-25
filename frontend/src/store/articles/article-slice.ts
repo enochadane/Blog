@@ -10,6 +10,7 @@ interface Article {
   title: string;
   body: string;
   likes: number;
+  liked: boolean;
   comments: Comment[];
 }
 
@@ -20,6 +21,7 @@ const initialState: { items: Article[]; article: Article } = {
     title: "",
     body: "",
     likes: 0,
+    liked: false,
     comments: [],
   },
 };
@@ -67,6 +69,16 @@ const articleSlice = createSlice({
       state.article.comments = state.article.comments.filter(
         (comment: Comment) => comment.id !== action.payload.id
       );
+    },
+    updateLikes(state, action) {
+      const id = action.payload.id;
+      const likes = action.payload.likes;
+      state.items.map((article: any) => {
+        if (article.id === id) {
+          article.likes = likes;
+        }
+        return article;
+      });
     },
   },
 });
